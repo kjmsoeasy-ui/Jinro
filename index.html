@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SillyTavern 테마 CSS 코드 분석 보고서</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --ink-light: #3d3d5c;
+    --muted: #7a7a9a;
+    --rule: #ddd8f0;
+    --accent: #c47fa5;
+    --accent-soft: #f0dcea;
+    --bg: #faf9fd;
+    --white: #ffffff;
+    --code-bg: #f4f0f8;
+    --pink: #f4a7c0;
+    --blue: #90caf9;
+    --tag-bg: #ede8f5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  /* ───── COVER ───── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 80px 64px;
+    background: var(--white);
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    right: -80px; top: -80px;
+    width: 420px; height: 420px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #f0dcea 0%, transparent 70%);
+    opacity: 0.6;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    right: 100px; bottom: -60px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #daeeff 0%, transparent 70%);
+    opacity: 0.5;
+  }
+
+  .cover-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+    font-weight: 500;
+  }
+
+  .cover-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(28px, 5vw, 46px);
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .cover-subtitle {
+    font-size: 15px;
+    color: var(--ink-light);
+    margin-bottom: 48px;
+    font-weight: 300;
+  }
+
+  .cover-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .cover-meta span {
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .cover-meta strong {
+    color: var(--ink-light);
+  }
+
+  .cover-divider {
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--pink), var(--blue));
+    border-radius: 2px;
+    margin-bottom: 36px;
+  }
+
+  /* ───── LAYOUT ───── */
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 64px 32px 100px;
+  }
+
+  /* ───── TOC ───── */
+  .toc {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 32px 36px;
+    margin-bottom: 64px;
+  }
+  .toc-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+  .toc ol {
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .toc li {
+    font-size: 13.5px;
+    color: var(--ink-light);
+  }
+  .toc li span {
+    color: var(--muted);
+    font-size: 11px;
+    margin-left: 6px;
+  }
+
+  /* ───── SECTION ───── */
+  .section {
+    margin-bottom: 64px;
+  }
+
+  .section-number {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section-body {
+    margin-top: 24px;
+  }
+
+  /* ───── TEXT ───── */
+  p {
+    color: var(--ink-light);
+    margin-bottom: 14px;
+    font-size: 13.5px;
+  }
+
+  /* ───── CALLOUT ───── */
+  .callout {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin: 20px 0;
+  }
+  .callout p { margin: 0; font-size: 13px; color: var(--ink-light); }
+  .callout strong { color: var(--accent); }
+
+  /* ───── CODE BLOCK ───── */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 16px 0;
+    overflow-x: auto;
+  }
+  .code-block pre {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: #4a3f6e;
+    white-space: pre-wrap;
+    line-height: 1.7;
+  }
+  .code-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  /* ───── FEATURE GRID ───── */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 24px 0;
+  }
+  @media (max-width: 560px) {
+    .feature-grid { grid-template-columns: 1fr; }
+  }
+  .feature-card {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+  .feature-card .fc-icon {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .feature-card .fc-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 5px;
+  }
+  .feature-card .fc-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ───── PALETTE ───── */
+  .palette {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+  }
+  .swatch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .swatch-color {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 1px solid var(--rule);
+  }
+  .swatch-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* ───── ANALYSIS TABLE ───── */
+  .analysis-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 12.5px;
+  }
+  .analysis-table th {
+    background: var(--code-bg);
+    color: var(--muted);
+    font-weight: 500;
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--rule);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .analysis-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    color: var(--ink-light);
+  }
+  .analysis-table tr:last-child td { border-bottom: none; }
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--accent);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 10.5px;
+    font-weight: 500;
+  }
+
+  /* ───── IMPROVEMENT CARD ───── */
+  .improve-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .improve-item {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .improve-num {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .improve-content .improve-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+  .improve-content p { font-size: 12px; margin: 0; }
+
+  /* ───── CONCLUSION ───── */
+  .conclusion-box {
+    background: linear-gradient(135deg, #fdf0f6, #eef5fd);
+    border-radius: 14px;
+    padding: 36px 40px;
+    text-align: center;
+    border: 1px solid var(--rule);
+  }
+  .conclusion-box .conclusion-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .conclusion-box p {
+    font-size: 13px;
+    color: var(--ink-light);
+    max-width: 540px;
+    margin: 0 auto;
+    text-align: left;
+    line-height: 1.9;
+  }
+
+  /* ───── FOOTER ───── */
+  .footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1px solid var(--rule);
+    margin-top: 20px;
+  }
+
+  /* ───── VISUAL DEMO ───── */
+  .demo-preview {
+    background: #fdf6f9;
+    border-radius: 12px;
+    border: 1px solid var(--rule);
+    padding: 20px;
+    margin: 20px 0;
+  }
+  .demo-msg {
+    max-width: 80%;
+    margin-bottom: 14px;
+  }
+  .demo-name-user { color: #f78fb3; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .demo-name-char { color: #BADAFF; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .demo-bubble {
+    background: white;
+    border-radius: 15px;
+    padding: 10px 16px;
+    font-size: 12.5px;
+    color: #555;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.05);
+    line-height: 1.6;
+  }
+  .demo-bubble.user { border: 3px dashed #90CAF9; }
+  .demo-bubble.char { border: 3px dashed #FFB7CE; }
+  .demo-msg.right { margin-left: auto; }
+  .demo-send {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(90deg, #f6d4e3, #d1ebf6);
+    border-radius: 25px;
+    padding: 8px 16px;
+    margin-top: 10px;
+  }
+  .demo-input {
+    flex: 1;
+    background: white;
+    border-radius: 15px;
+    padding: 8px 14px;
+    font-size: 12px;
+    color: #aaa;
+  }
+  .demo-btn { color: white; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-label">진로 과제 · UI/UX 코드 분석 보고서</div>
+  <h1 class="cover-title">SillyTavern<br>커스텀 테마 CSS<br>분석 보고서</h1>
+  <p class="cover-subtitle">Pastel Rainbow Theme — 디자인 의도와 기술 구현 분석</p>
+  <div class="cover-divider"></div>
+  <div class="cover-meta">
+    <span><strong>과목</strong> &nbsp;진로 탐색 결과물</span>
+    <span><strong>분야</strong> &nbsp;UI/UX 디자인 · 프론트엔드 개발</span>
+    <span><strong>희망 진로</strong> &nbsp;서울여자대학교 디지털미디어학과</span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">목 차</div>
+    <ol>
+      <li>프로젝트 개요 <span>— 제작 동기 및 목적</span></li>
+      <li>디자인 컨셉 <span>— 비주얼 방향성과 색채 계획</span></li>
+      <li>핵심 기술 구현 분석 <span>— CSS 기능별 상세 해설</span></li>
+      <li>UI/UX 설계 관점 분석 <span>— 사용성과 인터랙션 설계</span></li>
+      <li>개선 가능성 <span>— 발전 방향 제언</span></li>
+      <li>결론 <span>— 과제 의의와 배움</span></li>
+    </ol>
+  </div>
+
+
+  <!-- 1. 개요 -->
+  <div class="section">
+    <div class="section-number">Section 01</div>
+    <h2 class="section-title">프로젝트 개요</h2>
+    <div class="section-body">
+      <p>이 보고서는 AI 채팅 인터페이스 플랫폼인 <strong>SillyTavern</strong>에 적용하기 위해 직접 제작한 커스텀 CSS 테마 코드를 분석한 결과물이다. SillyTavern은 자체 테마 시스템을 제공하며, 사용자가 CSS를 직접 작성하여 인터페이스 전체를 재스타일링할 수 있다.</p>
+      <p>해당 테마는 <strong>파스텔 핑크와 하늘색의 그라데이션 조합</strong>을 중심으로, 한국어 손글씨 계열 폰트를 적용하여 부드럽고 아기자기한 느낌의 채팅 UI를 구현하는 것을 목표로 설계되었다.</p>
+
+      <div class="callout">
+        <p><strong>제작 목적 :</strong> 기존 디폴트 테마의 어두운 톤을 탈피하고, 사용자 경험 측면에서 시각적으로 따뜻하고 즐거운 감성의 인터페이스를 직접 구현해보는 것. UI/UX 디자인의 실질적 구현 능력을 탐색하는 진로 과제의 일환이기도 하다.</p>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="fc-icon">💬</div>
+          <div class="fc-title">대상 플랫폼</div>
+          <p class="fc-desc">SillyTavern — 로컬 AI 채팅 인터페이스. CSS 커스터마이징을 공식 지원.</p>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">🎨</div>
+          <div class="fc-title">스타일 방향</div>
+          <p class="fc-desc">파스텔 핑크·블루 기반의 소프트 감성. 아기자기하고 따뜻한 분위기.</p>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">🔤</div>
+          <div class="fc-title">폰트 선택</div>
+          <p class="fc-desc">학교안심 나들이체 (B) — 한국어 손글씨 느낌의 웹폰트 적용.</p>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">⚙️</div>
+          <div class="fc-title">기술 범위</div>
+          <p class="fc-desc">CSS 변수, @font-face, 선택자, 애니메이션, 스크롤바, 슬라이더 커스터마이징.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 2. 디자인 컨셉 -->
+  <div class="section">
+    <div class="section-number">Section 02</div>
+    <h2 class="section-title">디자인 컨셉 및 색채 계획</h2>
+    <div class="section-body">
+      <p>테마 전반의 비주얼 방향성은 <strong>"파스텔 무지개"</strong>로 요약된다. 두 개의 핵심 색조인 <em>Pastel Pink</em>와 <em>Pastel Blue</em>가 교차·혼합되며 인터페이스 전체에 부드러운 그라데이션을 형성한다.</p>
+
+      <div class="palette">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FFD1DC;"></div>
+          <div class="swatch-label">Pastel Pink<br>#FFD1DC</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#B3E5FC;"></div>
+          <div class="swatch-label">Pastel Blue<br>#B3E5FC</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FFB7CE;"></div>
+          <div class="swatch-label">Soft Pink<br>#FFB7CE</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#90CAF9;"></div>
+          <div class="swatch-label">Soft Blue<br>#90CAF9</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#f080a0;"></div>
+          <div class="swatch-label">Accent<br>#f080a0</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#fdf6f9;"></div>
+          <div class="swatch-label">BG<br>#fdf6f9</div>
+        </div>
+      </div>
+
+      <p>색상 정의는 CSS <code>:root</code> 의 <strong>CSS Custom Properties(변수)</strong>로 중앙화되었다. 이 방식은 색상 변경 시 한 곳만 수정하면 전체에 반영되는 유지보수 효율을 제공한다. UI/UX 설계에서 디자인 토큰(Design Token) 개념의 실질적 적용이다.</p>
+
+      <div class="code-block">
+        <div class="code-label">색상 변수 정의 — :root</div>
+        <pre>:root {
+  --pastel-pink: #FFD1DC;
+  --pastel-blue: #B3E5FC;
+  --soft-pink:   #FFB7CE;
+  --soft-blue:   #90CAF9;
+}</pre>
+      </div>
+
+      <p>사용자(유저) 말풍선과 캐릭터 말풍선에 각각 다른 색상을 배정한 것도 설계 포인트다. 유저는 핑크, 캐릭터는 하늘색으로 역할을 시각적으로 구분하여 <strong>메시지 출처의 직관적 인식</strong>을 돕는다. 이는 채팅 UI의 대표적인 UX 관례를 감성적으로 재해석한 것이다.</p>
+
+      <!-- 미니 데모 -->
+      <div class="demo-preview">
+        <div class="code-label" style="margin-bottom:14px;">▸ 실제 적용 시 채팅 UI 미리보기 (재현)</div>
+        <div class="demo-msg">
+          <div class="demo-name-char">✦ 캐릭터</div>
+          <div class="demo-bubble char">안녕! 오늘은 어떤 이야기를 나눠볼까요?</div>
+        </div>
+        <div class="demo-msg right">
+          <div class="demo-name-user" style="text-align:right;">나 ✦</div>
+          <div class="demo-bubble user">오늘은 소풍 이야기 해줘!</div>
+        </div>
+        <div class="demo-send">
+          <div class="demo-input">메시지를 입력하세요...</div>
+          <div class="demo-btn">✈</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 3. 기술 구현 분석 -->
+  <div class="section">
+    <div class="section-number">Section 03</div>
+    <h2 class="section-title">핵심 기술 구현 분석</h2>
+    <div class="section-body">
+
+      <table class="analysis-table">
+        <thead>
+          <tr>
+            <th>CSS 기술 요소</th>
+            <th>코드 내 적용</th>
+            <th>의도 및 효과</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tag">@font-face</span></td>
+            <td>학교안심 나들이체 woff2 로드</td>
+            <td>외부 CDN에서 한국어 웹폰트를 직접 불러와 브라우저 기본 폰트를 대체. 감성적 분위기 형성의 핵심.</td>
+          </tr>
+          <tr>
+            <td><span class="tag">CSS 변수</span></td>
+            <td>--pastel-pink, --soft-blue 등</td>
+            <td>색상 토큰 중앙화. 팔레트 일관성 유지 및 유지보수 효율 향상.</td>
+          </tr>
+          <tr>
+            <td><span class="tag">속성 선택자</span></td>
+            <td>[is_user="true"], :not([is_user="true"])</td>
+            <td>HTML 커스텀 속성을 기반으로 유저/캐릭터 말풍선을 다르게 스타일링. 역할 구분의 핵심 선택자.</td>
+          </tr>
+          <tr>
+            <td><span class="tag">linear-gradient</span></td>
+            <td>전송창, 사이드바, 슬라이더 트랙 등</td>
+            <td>핑크→블루 수평 그라데이션으로 "파스텔 무지개" 테마 전체에 통일감 부여.</td>
+          </tr>
+          <tr>
+            <td><span class="tag">@keyframes</span></td>
+            <td>heartBeat 애니메이션</td>
+            <td>정지 버튼(#mes_stop)에 1초 주기 심장 박동 효과. 인터랙션 피드백과 감성적 연출의 결합.</td>
+          </tr>
+          <tr>
+            <td><span class="tag">가상 선택자</span></td>
+            <td>::before, ::after, content</td>
+            <td>정지 버튼 아이콘을 ♥로 교체. HTML을 수정하지 않고 CSS만으로 아이콘 변경.</td>
+          </tr>
+          <tr>
+            <td><span class="tag">스크롤바 커스텀</span></td>
+            <td>::-webkit-scrollbar-thumb</td>
+            <td>스크롤바에도 핑크→블루 그라데이션 적용. 인터페이스 전체 감성 통일.</td>
+          </tr>
+          <tr>
+            <td><span class="tag">슬라이더 커스텀</span></td>
+            <td>input[type="range"], ::-webkit-slider-thumb</td>
+            <td>기본 브라우저 슬라이더를 완전히 재디자인. 트랙은 그라데이션, 손잡이는 핑크 테두리 원형.</td>
+          </tr>
+          <tr>
+            <td><span class="tag">box-shadow</span></td>
+            <td>말풍선 .mes_text</td>
+            <td>미세한 그림자로 말풍선에 깊이감 부여. 배경과의 자연스러운 분리.</td>
+          </tr>
+          <tr>
+            <td><span class="tag">transition</span></td>
+            <td>버튼 hover 시</td>
+            <td>0.3s 전환으로 hover 상태의 색 변화를 부드럽게 처리. 인터랙션 품질 향상.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p style="margin-top:10px;">특히 주목할 부분은 <strong>content 속성을 통한 아이콘 교체</strong>다. HTML 구조를 건드리지 않고 CSS의 <code>::before</code> 가상 요소와 <code>content: "\f004"</code> (Font Awesome 하트 유니코드)만으로 아이콘을 변경한 것은, CSS가 단순한 스타일링을 넘어 <strong>UI 요소를 재정의하는 수단</strong>이 될 수 있음을 보여주는 사례다.</p>
+
+      <div class="code-block">
+        <div class="code-label">아이콘 교체 — content 속성 활용</div>
+        <pre>/* 정지 버튼 아이콘을 하트로 교체 */
+#mes_stop i::before {
+  content: "\f004" !important;     /* Font Awesome 하트 코드 */
+  font-family: "Font Awesome 6 Free" !important;
+  font-weight: 900 !important;
+}
+
+/* 두근두근 애니메이션 */
+#mes_stop {
+  animation: heartBeat 1s ease-in-out infinite !important;
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.2); }
+}</pre>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 4. UI/UX 분석 -->
+  <div class="section">
+    <div class="section-number">Section 04</div>
+    <h2 class="section-title">UI/UX 설계 관점 분석</h2>
+    <div class="section-body">
+      <p>이 테마를 UI/UX 설계 원칙의 관점에서 분석하면 다음과 같은 특징이 나타난다.</p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="fc-icon">🎭</div>
+          <div class="fc-title">역할의 시각적 구분</div>
+          <p class="fc-desc">유저 핑크 / 캐릭터 하늘 — 색상을 통한 발화 주체 즉각 인식. 채팅 UX의 핵심 원칙 준수.</p>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">🎞</div>
+          <div class="fc-title">감성적 일관성</div>
+          <p class="fc-desc">그라데이션, 점선 테두리, 폰트, 스크롤바까지 테마 감성이 인터페이스 전체에 통일되어 있음.</p>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">✨</div>
+          <div class="fc-title">마이크로 인터랙션</div>
+          <p class="fc-desc">heartBeat 애니메이션, hover 트랜지션 — 기능적 요소에 감정을 부여하는 UX 세부 설계.</p>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">🔧</div>
+          <div class="fc-title">!important 과다 사용</div>
+          <p class="fc-desc">SillyTavern의 높은 명시도를 덮기 위한 불가피한 선택이나, 코드 유지보수 측면의 단점이기도 함.</p>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:10px;">
+        <p><strong>UX 관점 핵심 :</strong> 이 테마는 단순히 "예쁘게 꾸미기"가 아닌, 사용자가 AI와 대화하는 <em>경험의 질</em>을 설계한 것이다. 색상·폰트·애니메이션의 조합이 사용자에게 심리적 안락함과 몰입감을 제공하도록 의도되었다.</p>
+      </div>
+
+      <p>전송 폼(<code>#send_form</code>)의 레이아웃 처리도 주목할 만하다. <code>display: flex</code>와 <code>align-items: center</code>를 조합하여 입력창, 아이콘 버튼들을 수직 정렬하고, 외부 그라데이션 컨테이너 안에 흰색 입력창을 배치하는 구조를 설계하였다.</p>
+
+      <div class="code-block">
+        <div class="code-label">전송 폼 Flexbox 레이아웃</div>
+        <pre>#send_form {
+  display: flex !important;
+  align-items: center !important;        /* 수직 중앙 정렬 */
+  justify-content: space-between !important;
+  background: linear-gradient(90deg, #f6d4e3, #d1ebf6) !important;
+  border-radius: 30px !important;
+}
+
+#send_textarea {
+  flex: 1 !important;                    /* 남은 공간 차지 */
+  background-color: white !important;
+  border-radius: 15px !important;
+}</pre>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 5. 개선 가능성 -->
+  <div class="section">
+    <div class="section-number">Section 05</div>
+    <h2 class="section-title">개선 가능성 및 발전 방향</h2>
+    <div class="section-body">
+      <p>완성도 높은 첫 번째 결과물이지만, 코드 품질과 UX 측면에서 발전시킬 수 있는 방향이 있다.</p>
+      <div class="improve-list">
+        <div class="improve-item">
+          <div class="improve-num">1</div>
+          <div class="improve-content">
+            <div class="improve-title">중복 선언 정리</div>
+            <p><code>#send_form</code>, <code>input[type="range"]</code> 등 동일 요소가 여러 곳에 반복 선언되어 있다. CSS를 구조화하거나 주석으로 구역을 명확히 나누면 유지보수성이 크게 향상된다.</p>
+          </div>
+        </div>
+        <div class="improve-item">
+          <div class="improve-num">2</div>
+          <div class="improve-content">
+            <div class="improve-title">다크 모드 대응</div>
+            <p><code>@media (prefers-color-scheme: dark)</code>를 활용하여 시스템 다크 모드 시에도 감성이 유지되는 어두운 파스텔 버전을 추가하면 UX의 폭이 넓어진다.</p>
+          </div>
+        </div>
+        <div class="improve-item">
+          <div class="improve-num">3</div>
+          <div class="improve-content">
+            <div class="improve-title">반응형 고려</div>
+            <p>모바일/태블릿 환경에서의 레이아웃 대응을 위해 <code>@media</code> 쿼리를 추가하면 더 많은 환경에서 테마가 올바르게 표현된다.</p>
+          </div>
+        </div>
+        <div class="improve-item">
+          <div class="improve-num">4</div>
+          <div class="improve-content">
+            <div class="improve-title">접근성(Accessibility) 검토</div>
+            <p>파스텔 계열은 명도 대비가 낮아 시각적 접근성이 부족할 수 있다. WCAG 기준 대비율 확인 후 텍스트 색상을 보정하면 더 완성도 높은 UI가 된다.</p>
+          </div>
+        </div>
+        <div class="improve-item">
+          <div class="improve-num">5</div>
+          <div class="improve-content">
+            <div class="improve-title">CSS 변수 확장</div>
+            <p>현재 색상 변수만 정의되어 있다. <code>--radius-sm</code>, <code>--shadow-default</code> 등 간격·그림자 값도 변수화하면 테마 전체를 더 일관성 있게 관리할 수 있다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 6. 결론 -->
+  <div class="section">
+    <div class="section-number">Section 06</div>
+    <h2 class="section-title">결론</h2>
+    <div class="section-body">
+      <div class="conclusion-box">
+        <div class="conclusion-title">이 테마가 보여주는 것</div>
+        <p>이번 SillyTavern 커스텀 테마 제작은 단순한 꾸미기 활동이 아니다. CSS 변수를 통한 디자인 시스템 설계, 속성 선택자를 통한 역할 기반 스타일링, 애니메이션을 통한 마이크로 인터랙션 구현 — 이 모든 요소가 UI/UX 설계의 실질적 핵심 개념들과 맞닿아 있다.<br><br>
+        사용자가 인터페이스를 어떻게 <em>느끼는가</em>를 고민하고, 그것을 코드로 구현한 경험은 디지털미디어학과에서 탐구할 인간 중심 설계(Human-Centered Design)의 출발점이 된다. 이 보고서가 그 탐구의 첫 문서가 되기를 바란다.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    SillyTavern Custom Theme CSS Analysis Report &nbsp;·&nbsp; UI/UX 진로 탐색 과제 결과물
+  </div>
+
+</div>
+</body>
+</html>
+
