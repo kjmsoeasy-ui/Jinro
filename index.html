@@ -438,7 +438,6 @@
   <p class="cover-subtitle">Pastel Rainbow Theme — 디자인 의도와 기술 구현 분석</p>
   <div class="cover-divider"></div>
   <div class="cover-meta">
-    <span><strong>진로 탐색 결과물</strong></span>
     <span><strong>분야</strong> &nbsp;UI/UX(CSS를 활용한 인터페이스 시각 디자인)</span>
     <span><strong>희망 학교,학과</strong> &nbsp;서울여자대학교 디지털미디어학과</span>
   </div>
@@ -545,18 +544,18 @@
 }</pre>
       </div>
 
-      <p>사용자(유저) 말풍선과 캐릭터 말풍선에 각각 다른 색상을 배정한 것도 설계 포인트다. 유저는 핑크, 캐릭터는 하늘색으로 역할을 시각적으로 구분하여 <strong>메시지 출처의 직관적 인식</strong>을 돕는다. 이는 채팅 UI의 대표적인 UX 관례를 감성적으로 재해석한 것이다.</p>
+      <p>사용자(유저) 말풍선과 캐릭터 말풍선에 각각 다른 색상을 배정한 것도 설계 포인트다. 유저는 핑크, 캐릭터는 하늘색으로 역할을 시각적으로 구분하여 <strong>메시지 출처의 직관적 인식</strong>을 돕는다.</p>
 
       <!-- 미니 데모 -->
       <div class="demo-preview">
         <div class="code-label" style="margin-bottom:14px;">▸ 실제 적용 시 채팅 UI 미리보기 (재현)</div>
         <div class="demo-msg">
           <div class="demo-name-char">✦ 캐릭터</div>
-          <div class="demo-bubble char">안녕! 오늘은 어떤 이야기를 나눠볼까요?</div>
+          <div class="demo-bubble char">안녕하세요?</div>
         </div>
         <div class="demo-msg right">
           <div class="demo-name-user" style="text-align:right;">나 ✦</div>
-          <div class="demo-bubble user">오늘은 소풍 이야기 해줘!</div>
+          <div class="demo-bubble user">안녕!</div>
         </div>
         <div class="demo-send">
           <div class="demo-input">메시지를 입력하세요...</div>
@@ -634,28 +633,49 @@
           </tr>
         </tbody>
       </table>
+    </div>
 
-      <p style="margin-top:10px;">특히 주목할 부분은 <strong>content 속성을 통한 아이콘 교체</strong>다. HTML 구조를 건드리지 않고 CSS의 <code>::before</code> 가상 요소와 <code>content: "\f004"</code> (Font Awesome 하트 유니코드)만으로 아이콘을 변경한 것은, CSS가 단순한 스타일링을 넘어 <strong>UI 요소를 재정의하는 수단</strong>이 될 수 있음을 보여주는 사례다.</p>
+  <div class="sec">
+    <div class="sec-num">04</div>
+    <h2 class="sec-title">주요 컴포넌트 구현 방식</h2>
 
-      <div class="code-block">
-        <div class="code-label">아이콘 교체 — content 속성 활용</div>
-        <pre>/* 정지 버튼 아이콘을 하트로 교체 */
-#mes_stop i::before {
-  content: "\f004" !important;     /* Font Awesome 하트 코드 */
-  font-family: "Font Awesome 6 Free" !important;
-  font-weight: 900 !important;
+    <p><strong>말풍선</strong> — <code>.mes_text</code>에 흰색 배경, border-radius 15px, box-shadow를 적용했다. 유저는 핑크 점선, 캐릭터는 하늘색 점선 테두리(<code>border: 3px dashed</code>)로 구분한다.</p>
+
+    <p><strong>전송 폼</strong> — 외부 컨테이너(<code>#send_form</code>)는 핑크→블루 그라데이션 배경에 border-radius 30px의 캡슐 형태다. 내부 입력창(<code>#send_textarea</code>)은 흰색 배경으로 분리하여 contrast를 준다.</p>
+
+    <div class="code">
+      <div class="code-label">전송 폼 구조</div>
+      <pre>#send_form {
+  display: flex !important;
+  align-items: center !important;
+  background: linear-gradient(90deg, #f6d4e3, #d1ebf6) !important;
+  border-radius: 30px !important;
 }
+#send_textarea {
+  flex: 1 !important;
+  background-color: white !important;
+  border-radius: 15px !important;
+}</pre>
+    </div>
 
-/* 두근두근 애니메이션 */
+    <p><strong>정지 버튼 애니메이션</strong> — <code>::before</code> 가상 요소의 <code>content</code> 속성으로 아이콘을 하트(<code>\f004</code>)로 바꾸고, <code>@keyframes heartBeat</code>로 크기가 반복적으로 변하는 애니메이션을 적용했다. hover 시 애니메이션을 멈추도록 설정했다.</p>
+
+    <div class="code">
+      <div class="code-label">heartBeat 애니메이션</div>
+      <pre>#mes_stop i::before {
+  content: "\f004" !important;
+  font-family: "Font Awesome 6 Free" !important;
+}
 #mes_stop {
   animation: heartBeat 1s ease-in-out infinite !important;
 }
-
 @keyframes heartBeat {
   0%, 100% { transform: scale(1); }
   50%       { transform: scale(1.2); }
+}
+#mes_stop:hover {
+  animation: none !important;
 }</pre>
-      </div>
     </div>
   </div>
 
